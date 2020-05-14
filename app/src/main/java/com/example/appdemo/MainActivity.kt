@@ -1,6 +1,7 @@
 package com.example.appdemo
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -38,5 +39,10 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             myViewModel.insertUser(User("Body", 1, "Title", 1))
         }
+
+        myViewModel.genericError.observe(this, Observer { it ->
+            var genericError = it
+            Toast.makeText(this, genericError.message, Toast.LENGTH_SHORT).show()
+        })
     }
 }

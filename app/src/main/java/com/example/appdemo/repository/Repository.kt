@@ -3,6 +3,7 @@ package com.example.appdemo.repository
 import androidx.lifecycle.MutableLiveData
 import androidx.room.CoroutinesRoom
 import com.example.appdemo.database.dao.UserDao
+import com.example.appdemo.database.model.GenericError
 import com.example.appdemo.database.model.User
 import com.example.appdemo.database.model.UserWS
 import com.example.appdemo.net.ApiService
@@ -17,6 +18,7 @@ import retrofit2.Response
 class Repository(private val dao: UserDao) {
     val userWS = MutableLiveData<List<UserWS>>()
     val userDB = dao.getAllUsers()
+    val genericError = MutableLiveData<GenericError>()
 
     fun getUsersWS() {
         val request = Request.buildService(ApiService::class.java)
@@ -24,7 +26,7 @@ class Repository(private val dao: UserDao) {
 
         call.enqueue(object : Callback<List<UserWS>> {
             override fun onFailure(call: Call<List<UserWS>>, t: Throwable) {
-                print("")
+                genericError.value = GenericError(0, t.message.toString())
             }
 
             override fun onResponse(call: Call<List<UserWS>>, response: Response<List<UserWS>>) {

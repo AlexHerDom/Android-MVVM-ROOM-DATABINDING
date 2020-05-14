@@ -12,6 +12,7 @@ class MyViewModel(val repository: Repository) : ViewModel() {
 
     val userWS = repository.userWS
     val userDB = repository.userDB
+    val genericError = repository.genericError
 
     fun insertUser(user: User) {
         repository.insertUser(user)
